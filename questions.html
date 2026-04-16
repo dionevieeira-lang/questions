@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Reflexão Profunda</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;0,700;1,400&family=Lexend+Deca:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis de cores */
+        :root {
+            --laranja-queimado: #c85a17;
+            --laranja-claro: #d97634;
+            --bege-envelhecido: #f5ede0;
+            --marrom-profundo: #5c3d2e;
+            --cinza-quente: #8b7355;
+            --branco-calido: #faf8f3;
+        }
+
+        /* Reset e base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lexend Deca', sans-serif;
+            background-color: var(--branco-calido);
+            color: var(--marrom-profundo);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Noise texture sutil */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSBiYXNlRnJlcXVlbmN5PSIwLjkiIG51bU9IjQiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==');
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--bege-envelhecido), var(--branco-calido));
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            color: var(--marrom-profundo);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--cinza-quente);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Accordion */
+        .accordion {
+            margin-bottom: 20px;
+        }
+
+        .accordion input {
+            display: none;
+        }
+
+        .accordion label {
+            display: block;
+            background: var(--laranja-queimado);
+            color: var(--branco-calido);
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .accordion label:hover {
+            background: var(--laranja-claro);
+        }
+
+        .accordion label::after {
+            content: '▶';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .accordion input:checked + label {
+            background: var(--marrom-profundo);
+        }
+
+        .accordion input:checked + label::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--bege-envelhecido);
+            border-radius: 0 0 8px 8px;
+            padding: 0 20px;
+        }
+
+        .accordion input:checked ~ .accordion-content {
+            max-height: 2000px; /* Ajuste conforme necessário */
+            padding: 20px;
+        }
+
+        .accordion-content ol {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+
+        .accordion-content li {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--marrom-profundo);
+        }
+
+        /* Separadores */
+        .separator {
+            height: 2px;
+            background: linear-gradient(to right, var(--laranja-queimado), var(--laranja-claro));
+            margin: 40px 0;
+            border-radius: 1px;
+        }
+
+        /* Fechamento */
+        .closing {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bege-envelhecido);
+            border-radius: 10px;
+            font-style: italic;
+            color: var(--cinza-quente);
+        }
+
+        .closing p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .accordion label {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+
+            .accordion-content li {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Guia de personalização: Para alterar cores, edite as variáveis em :root. Para adicionar mais seções, duplique o bloco .accordion. */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Questionário de Reflexão Profunda</h1>
+            <p>Este briefing foi pensado para nos ajudar a compreender, com mais profundidade, a essência do seu projeto, a forma como ele atua hoje, o contexto em que está inserido e a presença que deseja construir nas redes sociais. Mais do que reunir informações básicas, a proposta aqui é entender o que torna esse projeto singular: sua trajetória, seus valores, seu momento atual, a relação com o público e a maneira como tudo isso pode se traduzir em uma comunicação mais coerente, sensível e estratégica. Não se trata de encontrar respostas “certas”, mas respostas honestas, consistentes e úteis, que nos ajudem a construir uma direção de conteúdo alinhada à realidade do projeto. Se preferir, você pode responder em texto corrido ou em tópicos.</p>
+        </section>
+
+        <!-- Seção 1 -->
+        <div class="accordion">
+            <input type="checkbox" id="section1">
+            <label for="section1">Seção 1: Sobre o Projeto</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Como nasceu a ideia do seu projeto? Qual foi o momento de inspiração?</li>
+                    <li>Que problema pessoal ou coletivo motivou você a criar isso?</li>
+                    <li>Quais foram os primeiros passos? Como você começou, de forma concreta?</li>
+                    <li>Que desafios iniciais você enfrentou e como os superou?</li>
+                    <li>Qual foi o primeiro marco importante da trajetória?</li>
+                    <li>Como o projeto evoluiu desde a ideia inicial até hoje?</li>
+                    <li>Que experiências de vida influenciaram a criação do projeto?</li>
+                    <li>Você sente que o projeto permanece fiel à sua visão original?</li>
+                    <li>Quais aprendizados da trajetória mais impactaram suas decisões atuais?</li>
+                    <li>Como você mede ou reconhece o sucesso do seu projeto?</li>
+                    <li>Qual foi a maior mudança de direção que o projeto já sofreu?</li>
+                    <li>Você documentou a história do seu projeto? De que forma?</li>
+                    <li>Quais pessoas ou influências foram essenciais para o projeto chegar aqui?</li>
+                    <li>Se tivesse que contar a origem do projeto em 3 minutos, o que diria?</li>
+                    <li>O que você gostaria que as pessoas compreendessem sobre como o projeto nasceu?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 2 -->
+        <div class="accordion">
+            <input type="checkbox" id="section2">
+            <label for="section2">Seção 2: Momento Atual</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Se tivesse que descrever a fase atual em uma palavra, qual seria?</li>
+                    <li>Você sente que está em estruturação, consolidação, transição ou expansão?</li>
+                    <li>Quais mudanças mais significativas ocorreram nos últimos 6 meses?</li>
+                    <li>O que está mais firme e bem definido no projeto agora?</li>
+                    <li>O que ainda está em construção ou precisa de mais clareza?</li>
+                    <li>Existe alguma decisão importante sendo amadurecida neste momento?</li>
+                    <li>Como você avalia a saúde geral do projeto hoje?</li>
+                    <li>Quais são os principais desafios que você enfrenta agora?</li>
+                    <li>Que oportunidades você identifica que ainda não está explorando?</li>
+                    <li>Como as mudanças externas (mercado, tecnologia) impactam seu projeto?</li>
+                    <li>Você tem clareza sobre os próximos 3-6 meses?</li>
+                    <li>Quais recursos você possui para sustentar o projeto nesta fase?</li>
+                    <li>Como você lida com incertezas e mudanças constantes?</li>
+                    <li>Que feedback recente mais impactou suas decisões?</li>
+                    <li>Se pudesse mudar uma coisa no projeto agora, o que seria?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 3 -->
+        <div class="accordion">
+            <input type="checkbox" id="section3">
+            <label for="section3">Seção 3: Essência & Propósito</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Qual é o propósito maior do seu projeto? Por que ele existe?</li>
+                    <li>Que transformação você busca provocar no mundo ou na comunidade?</li>
+                    <li>Quais valores fundamentais orientam cada decisão que você toma?</li>
+                    <li>Qual é a contribuição que você quer deixar através deste projeto?</li>
+                    <li>Que tipo de impacto você deseja gerar na vida das pessoas?</li>
+                    <li>Quais valores você está disposto a comprometer e quais são inegociáveis?</li>
+                    <li>Como o propósito do projeto evoluiu desde o início?</li>
+                    <li>Você sente conexão emocional genuína com o propósito?</li>
+                    <li>Como o propósito se reflete nas ações diárias do projeto?</li>
+                    <li>Que causas ou temas sociais o projeto aborda ou deveria abordar?</li>
+                    <li>Como você mede se está realmente cumprindo seu propósito?</li>
+                    <li>Que transformação você gostaria que fosse mais visível?</li>
+                    <li>Quais princípios éticos são inegociáveis para você?</li>
+                    <li>O projeto sustenta sua visão de mundo ou contradiz em algum ponto?</li>
+                    <li>Se o projeto desaparecesse amanhã, o que faltaria no mundo?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 4 -->
+        <div class="accordion">
+            <input type="checkbox" id="section4">
+            <label for="section4">Seção 4: Identidade & Expressão</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Como você descreveria a essência da marca em 3-5 palavras?</li>
+                    <li>Que emoções você quer que as pessoas sintam ao entrar em contato com o projeto?</li>
+                    <li>Qual é o tom de voz que você usa na comunicação?</li>
+                    <li>Como a identidade visual reflete a personalidade do projeto?</li>
+                    <li>Quais cores, fontes e estilos representam a marca?</li>
+                    <li>O que torna o projeto visualmente único ou reconhecível?</li>
+                    <li>Como a identidade evoluiu ao longo do tempo?</li>
+                    <li>Você tem clareza sobre o posicionamento da marca no mercado?</li>
+                    <li>Que histórias ou narrativas definem a identidade do projeto?</li>
+                    <li>Como você mantém consistência na expressão da marca?</li>
+                    <li>Que feedback você recebeu sobre a identidade visual ou verbal?</li>
+                    <li>O tom de voz se adapta a diferentes públicos ou contextos?</li>
+                    <li>Quais símbolos, ícones ou elementos visuais representam a marca?</li>
+                    <li>Você sente que a marca é autêntica e alinhada com quem você é?</li>
+                    <li>Se tivesse que redesenhar a marca hoje, o que mudaria?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 5 -->
+        <div class="accordion">
+            <input type="checkbox" id="section5">
+            <label for="section5">Seção 5: Atuação & Funcionamento</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Quais são os principais produtos, serviços ou experiências que você oferece?</li>
+                    <li>Como o trabalho acontece na prática, dia a dia?</li>
+                    <li>Que processos você utiliza para entregar valor aos clientes?</li>
+                    <li>O projeto funciona de forma mais artesanal, enxuta, estruturada ou escalável?</li>
+                    <li>O que depende diretamente de você e o que já é dividido com equipe?</li>
+                    <li>Existe sazonalidade, ciclos de produção ou períodos mais intensos?</li>
+                    <li>O que costuma tomar mais energia no dia a dia?</li>
+                    <li>O que sustenta o projeto com mais força financeiramente?</li>
+                    <li>Que ferramentas ou tecnologias suportam suas operações?</li>
+                    <li>Como você organiza e prioriza as tarefas do projeto?</li>
+                    <li>Quais parcerias são essenciais para o funcionamento?</li>
+                    <li>Você tem clareza sobre seus preços e modelos de receita?</li>
+                    <li>Como você garante qualidade nas entregas?</li>
+                    <li>Quais desafios operacionais você enfrenta?</li>
+                    <li>Que inovações você planeja implementar na forma de atuar?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 6 -->
+        <div class="accordion">
+            <input type="checkbox" id="section6">
+            <label for="section6">Seção 6: Experiência & Diferencial</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Que transformação as pessoas experimentam ao trabalhar com você?</li>
+                    <li>Como você descreveria seu método único de trabalho?</li>
+                    <li>O que torna sua forma de fazer diferente de alternativas no mercado?</li>
+                    <li>Existe um método próprio, uma filosofia ou um cuidado que orienta o trabalho?</li>
+                    <li>Que valor exclusivo você oferece que não é simples de copiar?</li>
+                    <li>Como a experiência se diferencia de concorrentes diretos?</li>
+                    <li>Você tem casos de sucesso que ilustram transformações reais?</li>
+                    <li>Quais elementos do método são mais inovadores?</li>
+                    <li>Como você personaliza a experiência para cada cliente?</li>
+                    <li>Que valores são transmitidos através da experiência?</li>
+                    <li>Como o diferencial contribui para a fidelização?</li>
+                    <li>O que os clientes mais elogiam ou valorizam?</li>
+                    <li>Existe algum aspecto do método que ainda está invisível?</li>
+                    <li>Como você mede o impacto da experiência que oferece?</li>
+                    <li>Que melhorias você gostaria de implementar na experiência?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 7 -->
+        <div class="accordion">
+            <input type="checkbox" id="section7">
+            <label for="section7">Seção 7: Público & Cliente</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Para quem esse projeto faz mais sentido hoje?</li>
+                    <li>Como você descreveria o perfil do cliente ideal?</li>
+                    <li>Em que momento de vida essas pessoas estão?</li>
+                    <li>O que elas mais valorizam quando procuram uma solução como a sua?</li>
+                    <li>Quais dores, desejos ou necessidades aparecem com mais frequência?</li>
+                    <li>Como você constrói confiança com seus clientes?</li>
+                    <li>O que costuma gerar hesitação ou demora na decisão de compra?</li>
+                    <li>Que tipo de linguagem aproxima esse público?</li>
+                    <li>Que tipo de linguagem afasta ou desconecta?</li>
+                    <li>Como você coleta e usa feedbacks dos clientes?</li>
+                    <li>Existe um público que gostaria de atrair mais?</li>
+                    <li>O que esse público ainda não entende completamente sobre o que você faz?</li>
+                    <li>Você segmenta seu público? Como?</li>
+                    <li>Você sente empatia genuína com as necessidades do seu público?</li>
+                    <li>Quais estratégias você usa para expandir e aprofundar relacionamentos?</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Seção 8 -->
+        <div class="accordion">
+            <input type="checkbox" id="section8">
+            <label for="section8">Seção 8: Contexto, Referências & Presença Digital</label>
+            <div class="accordion-content">
+                <ol>
+                    <li>Em que contexto de mercado ou campo seu projeto está inserido?</li>
+                    <li>Que movimentos ou tendências ganham força na sua área?</li>
+                    <li>Que mudanças de comportamento você percebe no público?</li>
+                    <li>Quais conversas importantes atravessam esse universo atualmente?</li>
+                    <li>Que excessos, modismos ou lacunas você percebe no seu campo?</li>
+                    <li>Quais projetos, marcas ou iniciativas você admira e por quê?</li>
+                    <li>O que te inspira nessas referências, mas você não quer copiar?</li>
+                    <li>Existe algo no seu campo que você gostaria de fazer diferente?</li>
+                    <li>Há discursos que você considera superficiais ou já saturados?</li>
+                    <li>Como está a presença digital do projeto atualmente?</li>
+                    <li>Em quais redes ou canais você está presente?</li>
+                    <li>Qual é o papel das redes sociais para este projeto?</li>
+                    <li>O que você espera que a comunicação digital ajude a construir?</li>
+                    <li>Quando alguém chega ao seu perfil, entende rapidamente o que você faz?</li>
+                    <li>O que seria um bom resultado de comunicação digital nos próximos meses?</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- Fechamento -->
+        <section class="closing">
+            <p>Este questionário é uma ferramenta para reflexão profunda. Use-o para conectar-se com a essência do seu projeto e guiar suas próximas ações. Lembre-se: o crescimento vem da honestidade consigo mesmo e com o que você cria.</p>
+        </section>
+    </div>
+</body>
+</html>
